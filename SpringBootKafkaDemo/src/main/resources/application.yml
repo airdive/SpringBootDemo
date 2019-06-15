@@ -1,10 +1,10 @@
 server:
   servlet:
     context-path: /
-  port: 8080
+  port: 7080
 spring:
   kafka:
-    bootstrap-servers: 127.0.0.1:9092
+    bootstrap-servers: 192.168.5.43:9092,192.168.5.137:9092,172.31.19.11:9092
     #生产者的配置，大部分我们可以使用默认的，这里列出几个比较重要的属性
     producer:
       #每批次发送消息的数量
@@ -16,6 +16,10 @@ spring:
       #key序列化方式
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      #必须要有多少个分区副本收到消息，生产者才会认为消息写入成功
+      #acks=1：只要集群首领节点收到消息；acks=all：需要所有参与复制的节点全部收到消息
+      acks: 1
+      compression-type: snappy
     #消费者的配置
     consumer:
       #Kafka中没有初始偏移或如果当前偏移在服务器上不再存在时,默认区最新 ，有三个选项 【latest, earliest, none】
